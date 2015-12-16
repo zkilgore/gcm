@@ -7,6 +7,7 @@ package gcm
 type Message struct {
 	RegistrationIDs       []string               `json:"registration_ids"`
 	CollapseKey           string                 `json:"collapse_key,omitempty"`
+	Notification          Notification           `json:"notification,omitempty"`
 	Data                  map[string]interface{} `json:"data,omitempty"`
 	DelayWhileIdle        bool                   `json:"delay_while_idle,omitempty"`
 	TimeToLive            int                    `json:"time_to_live,omitempty"`
@@ -14,8 +15,25 @@ type Message struct {
 	DryRun                bool                   `json:"dry_run,omitempty"`
 }
 
+type Notification struct {
+	Title string `json:"title"`
+	Body  string `json:"text"`
+}
+
 // NewMessage returns a new Message with the specified payload
 // and registration IDs.
-func NewMessage(data map[string]interface{}, regIDs ...string) *Message {
-	return &Message{RegistrationIDs: regIDs, Data: data}
+func NewMessage(title, body string, data map[string]interface{}, regIDs ...string) *Message {
+	return m := &Message{
+    RegistrationIDs: regIDs,
+    Data: data,
+  }
+
+  if title != "" && body != "" {
+    m.Notification = &Notification{
+      Title: title,
+      Body: body,
+    }
+  }
+
+  return m
 }
