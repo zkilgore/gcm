@@ -15,6 +15,7 @@ type Message struct {
 	DryRun                bool                   `json:"dry_run,omitempty"`
 }
 
+// Notification @TOOD
 type Notification struct {
 	Title string `json:"title"`
 	Body  string `json:"text"`
@@ -23,17 +24,18 @@ type Notification struct {
 // NewMessage returns a new Message with the specified payload
 // and registration IDs.
 func NewMessage(title, body string, data map[string]interface{}, regIDs ...string) *Message {
-	return m := &Message{
-    RegistrationIDs: regIDs,
-    Data: data,
-  }
 
-  if title != "" && body != "" {
-    m.Notification = &Notification{
-      Title: title,
-      Body: body,
-    }
-  }
+	m := &Message{
+		RegistrationIDs: regIDs,
+		Data:            data,
+	}
 
-  return m
+	if title != "" && body != "" {
+		m.Notification = &Notification{
+			Title: title,
+			Body:  body,
+		}
+	}
+
+	return m
 }
